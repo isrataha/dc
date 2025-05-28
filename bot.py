@@ -33,6 +33,6 @@ async def ban_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send("Bu komutu çalıştırmak için yeterli izniniz yok.")
     elif isinstance(error, commands.MemberNotFound):
-        await ctx.send("Kullanıcı bulunamadı!")
+        await ctx.send("Kullanıcı bulunamadı.")
 
 bot.run(token)
