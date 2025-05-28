@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from config import token  # Botun tokenini config dosyasından içe aktarma
+import random
 
 intents = discord.Intents.default()
 intents.members = True  # Botun kullanıcılarla çalışmasına ve onları banlamasına izin verir
@@ -11,6 +12,15 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 @bot.event
 async def on_ready():
     print(f'Giriş yapıldı:  {bot.user.name}')
+
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+    elif message.content.startswith(bot.command_prefix):
+        await bot.process_commands(message)
+    else:
+        await message.channel.send(message.content)
 
 @bot.command()
 async def start(ctx):
@@ -34,5 +44,11 @@ async def ban_error(ctx, error):
         await ctx.send("Bu komutu çalıştırmak için yeterli izniniz yok.")
     elif isinstance(error, commands.MemberNotFound):
         await ctx.send("Kullanıcı bulunamadı.")
+
+
+@bot.command()
+async def secim(ctx, *x):
+    a = random.choice(x)
+    await ctx.send(a)
 
 bot.run(token)
